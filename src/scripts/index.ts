@@ -14,7 +14,7 @@ interface CanvasElement extends HTMLCanvasElement {
     captureStream(int): MediaStream;             
 }
 
-const DEBUG: boolean = false;
+const DEBUG: boolean = true;
 const THUMBNAIL: boolean = false;
 
 const srandom = seedrandom('a');
@@ -33,7 +33,7 @@ class App {
         this.canvas = <CanvasElement> document.getElementById('canvas');
 
         this.recorder = new CCaptureRecorder(this.canvas);
-        if (!DEBUG) {
+        if (this.shouldRecord()) {
             this.recorder.start();
         }
 
@@ -43,7 +43,7 @@ class App {
 
         this.animation();
 
-        if (THUMBNAIL) {
+        if (THUMBNAIL && !DEBUG) {
             saveThumbnail(this.canvas);
         }
     }
@@ -97,7 +97,7 @@ class App {
 
     handleTLComplete() {
         setTimeout(() => {
-            if (!DEBUG) {
+            if (this.shouldRecord()) {
                 this.recorder.stop();
                 this.animating = false;
             }
@@ -106,12 +106,16 @@ class App {
 
     animation() {
         this.renderer.render();
-        if (!DEBUG) {
+        if (this.shouldRecord()) {
             this.recorder.update();
         }
         if (this.animating) {
             requestAnimationFrame(() => this.animation());
         }
+    }
+
+    shouldRecord() {
+        return !DEBUG && !THUMBNAIL;
     }
     
 }
