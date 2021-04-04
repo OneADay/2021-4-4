@@ -38,14 +38,7 @@ export default class CanvasRenderer{
 
             this.items.push({x, y, children});
 
-            /*
             x += this.maxSize;
-            if (x > WIDTH) {
-              x = 0;
-              y += this.maxSize;
-            }
-            */
-           x += this.maxSize;
         }
     }
 

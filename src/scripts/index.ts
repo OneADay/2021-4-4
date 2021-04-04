@@ -32,7 +32,7 @@ class App {
     constructor() {
         this.canvas = <CanvasElement> document.getElementById('canvas');
 
-        this.recorder = new CCaptureRecorder(this.canvas, 'webm');
+        this.recorder = new CCaptureRecorder(this.canvas);
         if (!DEBUG) {
             this.recorder.start();
         }
@@ -59,16 +59,16 @@ class App {
             onComplete: () => this.handleTLComplete()
         });
 
-        tl.timeScale(0.5);
+        tl.timeScale(2);
 
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
             let out = srandom();
 
             tl.to(item, {
-                x: item.x + 200,
-                y: item.y + 200,
-                duration: 10,
+                x: item.x + 50,
+                y: item.y + 50,
+                duration: 3,
                 ease: "power1.inOut"
             }, 0);
 
@@ -76,7 +76,7 @@ class App {
                 let child = item.children[j];
                 let time = out + srandom();
 
-                for (let l = 0; l < 50; l++) {
+                for (let l = 0; l < 5; l++) {
                     
                     tl.to(child, {
                         line: this.renderer.randomLine(), 
@@ -90,28 +90,6 @@ class App {
                         ease: "power1.in"
                     }, time + (l * 0.2));
                 }
-                /*
-                tl.to(child, {
-                    line: this.renderer.randomLine(), 
-                    color: this.renderer.randomColor(),
-                    duration: 0.2,
-                    ease: "none"
-                }, time);
-
-                tl.to(child, {
-                    line: this.renderer.randomLine(), 
-                    color: this.renderer.randomColor(),
-                    duration: 0.2,
-                    ease: "none"
-                }, time + 0.2);
-
-                tl.to(child, {
-                    line: this.renderer.randomLine(), 
-                    color: this.renderer.randomColor(),
-                    duration: 0.2,
-                    ease: "none"
-                }, time + 0.4);
-                */
 
             }
         }
